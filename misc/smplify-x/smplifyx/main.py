@@ -172,29 +172,26 @@ def main(**args):
             curr_result_fn = osp.join(curr_result_folder, f'{person_idx:02d}.pkl')
             curr_mesh_fn = osp.join(curr_mesh_folder, f'{person_idx:02d}.obj')
 
-            try:
-                fit_single_frame(keypoints_3d[[person_idx]],
-                                 body_model=body_model,
-                                 joint_weights=joint_weights,
-                                 dtype=dtype,
-                                 result_fn=curr_result_fn,
-                                 mesh_fn=curr_mesh_fn,
-                                 shape_prior=shape_prior,
-                                 expr_prior=expr_prior,
-                                 body_pose_prior=body_pose_prior,
-                                 left_hand_prior=left_hand_prior,
-                                 right_hand_prior=right_hand_prior,
-                                 jaw_prior=jaw_prior,
-                                 angle_prior=angle_prior,
-                                 **args)
+            fit_single_frame(keypoints_3d[[person_idx]],
+                                body_model=body_model,
+                                joint_weights=joint_weights,
+                                dtype=dtype,
+                                result_fn=curr_result_fn,
+                                mesh_fn=curr_mesh_fn,
+                                shape_prior=shape_prior,
+                                expr_prior=expr_prior,
+                                body_pose_prior=body_pose_prior,
+                                left_hand_prior=left_hand_prior,
+                                right_hand_prior=right_hand_prior,
+                                jaw_prior=jaw_prior,
+                                angle_prior=angle_prior,
+                                **args)
 
-                elapsed = time.time() - start
-                time_msg = time.strftime('%H hours, %M minutes, %S seconds',
-                                         time.gmtime(elapsed))
-                print('Processing the data took: {}'.format(time_msg))
+            elapsed = time.time() - start
+            time_msg = time.strftime('%H hours, %M minutes, %S seconds',
+                                        time.gmtime(elapsed))
+            print('Processing the data took: {}'.format(time_msg))
 
-            except:
-                print('Some error occured during fitting')
 
 
 if __name__ == "__main__":

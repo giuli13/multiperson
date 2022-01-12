@@ -67,7 +67,7 @@ J24_to_J15 = [12, 13, 14, 9, 10, 11,  # 5s
               ]
 
 def process_panoptic(panoptic_path, dataset_name, sequence_idx):
-    seq_idxs = np.loadtxt(sequence_idx).astype(int)
+    seq_idxs = range(int(sequence_idx))
     annotation_dir = osp.join(panoptic_path, 'processed', 'annotations')
     pathlib.Path(annotation_dir).mkdir(parents=True, exist_ok=True)
 
@@ -93,7 +93,7 @@ def process_panoptic(panoptic_path, dataset_name, sequence_idx):
         hd_img_path = osp.join(panoptic_path, dataset_name, 'hdImgs/')
         hd_skel_json_path = osp.join(panoptic_path, dataset_name, 'hdPose3d_stage1_coco19/')
         for hd_idx in tqdm(seq_idxs):
-            image_path = hd_img_path + '{0:02d}_{1:02d}/{0:02d}_{1:02d}_{2:08d}.png'.format(cam['panel'], cam['node'],
+            image_path = hd_img_path + '{0:02d}_{1:02d}/{0:02d}_{1:02d}_{2:08d}.jpg'.format(cam['panel'], cam['node'],
                                                                                             hd_idx)
             skel_json_fname = hd_skel_json_path + 'body3DScene_{0:08d}.json'.format(hd_idx)
 
@@ -115,7 +115,7 @@ def process_panoptic(panoptic_path, dataset_name, sequence_idx):
                                    np.array(cam['K']), cam['R'], cam['t'],
                                    cam['distCoef'])
                 kpts3d_J24 = np.zeros((24, 4))
-                kpts3d_J24[J24_to_J15] = skel.T
+                kpts3d_J24[J24_to_J15] = skel.T[:15]
                 kpts3d_J24[:, -1] = kpts3d_J24[:, -1] > 0.1
                 valid = skel[3, :] > 0.1
                 pt_J24 = projectPoints(kpts3d_J24.T[0:3, :], np.array(cam['K']), cam['R'], cam['t'], cam['distCoef'])

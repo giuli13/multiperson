@@ -122,3 +122,4 @@ data
 *.pkl.json
 *.log.json
 work_dirs/
+misc/smplify-x/smpl_debug/
